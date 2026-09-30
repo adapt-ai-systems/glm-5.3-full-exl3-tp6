@@ -5,8 +5,10 @@ The D8 overlay (`overlays/dense-fp8-gptq/d2_fp8_gptq.py`) runs 312 non-expert li
 group 32, per-group MSE clip) through Marlin whenever a batch has fewer than 256 rows, i.e. every decode and
 MTP-verify step. Prefill keeps the FP8/W8A8 path. Cost: ~+1.9 GB per rank (TP6).
 
-The codes are **rank-specific** (they are solved for each rank's slice of each weight) and are not shipped.
-You regenerate them with the scripts here. We did it off-cluster on one large-RAM x86 host (CPU only).
+The codes are **rank-specific** (they are solved for each rank's slice of each weight). Our solved TP6 and TP4
+codes are on Hugging Face:
+[adapt-ai-systems/glm-5.3-full-exl3-gptq-dense](https://huggingface.co/adapt-ai-systems/glm-5.3-full-exl3-gptq-dense).
+To solve your own, use the scripts here. We did it off-cluster on one large-RAM x86 host (CPU only).
 
 ## Steps
 

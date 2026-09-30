@@ -49,8 +49,11 @@ Both builds start from vLLM on the MiaAI-Lab ARM image with the r17 EXL3 "TR3" l
 2. **Weights.** Download the TR3 3.25 bpw checkpoint to every node. TP4 uses it as is. TP6: on each node run
    `runtime/tp6-fragments/export_rank.py --source <ckpt> --output <rank dir> --rank <r>` (stdlib only, byte-copies
    only that rank's fragments; it expects a `MANIFEST.sha256` of the source files).
-3. **GPTQ codes.** Solve them per rank with `gptq/` (a capture boot, then a CPU solve; see `gptq/README.md`).
-   Our calibration text is private, so your codes will differ from ours. Run the KL gate (`eval/README.md`).
+3. **GPTQ codes.** Download our solved per-rank codes from Hugging Face,
+   [adapt-ai-systems/glm-5.3-full-exl3-gptq-dense](https://huggingface.co/adapt-ai-systems/glm-5.3-full-exl3-gptq-dense)
+   (`tp6/r<rank>/` or `tp4/r<rank>/`), or solve your own per rank with `gptq/` (a capture boot, then a CPU solve;
+   see `gptq/README.md`). Our calibration text is private, so codes you solve will differ from ours. Either way,
+   run the KL gate (`eval/README.md`).
 4. **Launch.** Copy `launch/tp6/launch.env.example` or `launch/tp4/launch.env.example`, fill in addresses and paths,
    check the printed command (`DRY_RUN=1`, the default), then `DRY_RUN=0` on each worker and last on the head.
    Wait for `/health`, then send a smoke request.
