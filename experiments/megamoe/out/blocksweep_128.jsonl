@@ -1,0 +1,3 @@
+{"block_m": 128, "M": 1024, "error": "ValueError('FC2 route subtile must be an allowed divisor of the packed route block: packed=128, fc2=128')"}
+{"block_m": 128, "M": 2048, "error": "ValueError('FC2 route subtile must be an allowed divisor of the packed route block: packed=128, fc2=128')"}
+{"block_m": 128, "M": 4096, "error": "ValueError('FC2 route subtile must be an allowed divisor of the packed route block: packed=128, fc2=128')"}

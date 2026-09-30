@@ -1,0 +1,9 @@
+INFO 09-29 22:59:43 [exl3.py:3190] EXL3 mixed Trellis model.layers.40.mlp.experts: tiers=((3, 192), (4, 64))
+INFO 09-29 22:59:43 [exl3.py:3376] EXL3 mixed Trellis prefill block policy: selected=32 configured=64 explicit=False shape=6144x512 tiers=((3, 192), (4, 64)) topk=8 sm=12 tile=(128, 128, 32, 512)
+INFO 09-29 22:59:45 [exl3.py:729] R7 fused MoE scratch arena (worst-case sized): capacity=8 block_m=8 topk=8 max_m_blocks=64
+INFO 09-29 22:59:45 [exl3.py:729] R7 fused MoE scratch arena (worst-case sized): capacity=4096 block_m=32 topk=8 max_m_blocks=1272
+INFO 09-29 22:59:45 [exl3.py:3584] EXL3 mixed Trellis runtime planned: tiers=((3, 192), (4, 64)) one-grid decode=8 one-grid prefill=4096/4096 block_m=32 buffers=7.9+972.2 MiB
+{"max_m": 8, "M": 1, "routing": "router", "us_median": 232.4, "us_min": 217.8, "us_p90": 244.4, "unique_experts": 8.0}
+{"max_m": 8, "M": 1, "routing": "same8", "us_median": 232.1, "us_min": 215.8, "us_p90": 242.6, "unique_experts": 8.0}
+{"max_m": 8, "M": 5, "routing": "router", "us_median": 697.5, "us_min": 632.7, "us_p90": 761.6, "unique_experts": 35.6}
+{"max_m": 8, "M": 5, "routing": "same8", "us_median": 235.8, "us_min": 217.8, "us_p90": 247.5, "unique_experts": 8.0}

@@ -1,0 +1,302 @@
+{
+ "M5_eager": {
+  "n_calls": 10,
+  "span_us_first_to_last_kernel": 918.2070000000022,
+  "sum_kernel_us": 1587.3580000000075,
+  "summary": [
+   {
+    "kernel": "MOE_CALL",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 950.7191,
+    "us_per_moe": 950.7191
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 663.7210999999986,
+    "us_per_moe": 663.7210999999986
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 4.5440000000007785,
+    "us_per_moe": 4.5440000000007785
+   },
+   {
+    "kernel": "_pack_topk_routes_small_prefix_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 2.611199999999735,
+    "us_per_moe": 2.611199999999735
+   },
+   {
+    "kernel": "_pack_topk_routes_sort_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.4591999999991458,
+    "us_per_moe": 1.4591999999991458
+   },
+   {
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 0.9536000000000058,
+    "us_per_moe": 0.9536000000000058
+   }
+  ],
+  "timeline": [
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2.496000000002823,
+    "kernel": "_pack_topk_routes_small_prefix_kernel"
+   },
+   {
+    "t_start_us": 0.0,
+    "dur_us": 918.2070000000022,
+    "kernel": "MOE_CALL"
+   },
+   {
+    "t_start_us": 10.304000000000087,
+    "dur_us": 1.4720000000015716,
+    "kernel": "_pack_topk_routes_sort_kernel"
+   },
+   {
+    "t_start_us": 250.0480000000025,
+    "dur_us": 660.0949999999975,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g"
+   },
+   {
+    "t_start_us": 911.6790000000001,
+    "dur_us": 4.256000000001222,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_"
+   },
+   {
+    "t_start_us": 917.375,
+    "dur_us": 0.8320000000021537,
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase"
+   }
+  ]
+ },
+ "M5_graph": {
+  "n_calls": 10,
+  "span_us_first_to_last_kernel": 670.8139999999985,
+  "sum_kernel_us": 1341.3079999999973,
+  "summary": [
+   {
+    "kernel": "MOE_CALL",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 711.9378999999997,
+    "us_per_moe": 711.9378999999997
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 702.5138999999996,
+    "us_per_moe": 702.5138999999996
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 4.406400000000031,
+    "us_per_moe": 4.406400000000031
+   },
+   {
+    "kernel": "_pack_topk_routes_small_prefix_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 2.438400000000365,
+    "us_per_moe": 2.438400000000365
+   },
+   {
+    "kernel": "_pack_topk_routes_sort_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.1808000000003631,
+    "us_per_moe": 1.1808000000003631
+   },
+   {
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.1039999999998145,
+    "us_per_moe": 1.1039999999998145
+   }
+  ],
+  "timeline": [
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2.144000000000233,
+    "kernel": "_pack_topk_routes_small_prefix_kernel"
+   },
+   {
+    "t_start_us": 0.0,
+    "dur_us": 670.8139999999985,
+    "kernel": "MOE_CALL"
+   },
+   {
+    "t_start_us": 2.271999999999025,
+    "dur_us": 1.0560000000004948,
+    "kernel": "_pack_topk_routes_sort_kernel"
+   },
+   {
+    "t_start_us": 3.456000000000131,
+    "dur_us": 662.2059999999983,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g"
+   },
+   {
+    "t_start_us": 665.8859999999986,
+    "dur_us": 4.22400000000016,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_"
+   },
+   {
+    "t_start_us": 669.9499999999989,
+    "dur_us": 0.863999999999578,
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase"
+   }
+  ]
+ },
+ "M20_eager": {
+  "n_calls": 10,
+  "span_us_first_to_last_kernel": 2200.8619999999974,
+  "sum_kernel_us": 4146.587999999989,
+  "summary": [
+   {
+    "kernel": "MOE_CALL",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1999.3803,
+    "us_per_moe": 1999.3803
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1717.5407999999995,
+    "us_per_moe": 1717.5407999999995
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 15.03350000000014,
+    "us_per_moe": 15.03350000000014
+   },
+   {
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 9.081600000000298,
+    "us_per_moe": 9.081600000000298
+   },
+   {
+    "kernel": "_pack_topk_routes_small_prefix_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 3.4912000000007994,
+    "us_per_moe": 3.4912000000007994
+   },
+   {
+    "kernel": "_pack_topk_routes_sort_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.5264000000001032,
+    "us_per_moe": 1.5264000000001032
+   }
+  ],
+  "timeline": [
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2.6559999999990396,
+    "kernel": "_pack_topk_routes_small_prefix_kernel"
+   },
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2200.8619999999974,
+    "kernel": "MOE_CALL"
+   },
+   {
+    "t_start_us": 10.65599999999904,
+    "dur_us": 1.504000000000815,
+    "kernel": "_pack_topk_routes_sort_kernel"
+   },
+   {
+    "t_start_us": 254.6239999999998,
+    "dur_us": 1926.5579999999973,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g"
+   },
+   {
+    "t_start_us": 2183.678,
+    "dur_us": 13.823999999996886,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_"
+   },
+   {
+    "t_start_us": 2199.678,
+    "dur_us": 1.183999999997468,
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase"
+   }
+  ]
+ },
+ "M20_graph": {
+  "n_calls": 10,
+  "span_us_first_to_last_kernel": 2008.3869999999988,
+  "sum_kernel_us": 4016.4219999999987,
+  "summary": [
+   {
+    "kernel": "MOE_CALL",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1733.5573999999992,
+    "us_per_moe": 1733.5573999999992
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1714.6838000000007,
+    "us_per_moe": 1714.6838000000007
+   },
+   {
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 13.635200000000077,
+    "us_per_moe": 13.635200000000077
+   },
+   {
+    "kernel": "_pack_topk_routes_small_prefix_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 2.3007999999991626,
+    "us_per_moe": 2.3007999999991626
+   },
+   {
+    "kernel": "_pack_topk_routes_sort_kernel",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.366399999999885,
+    "us_per_moe": 1.366399999999885
+   },
+   {
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase",
+    "calls_per_moe": 1.0,
+    "avg_us_each": 1.2511999999998806,
+    "us_per_moe": 1.2511999999998806
+   }
+  ],
+  "timeline": [
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2.2079999999987194,
+    "kernel": "_pack_topk_routes_small_prefix_kernel"
+   },
+   {
+    "t_start_us": 0.0,
+    "dur_us": 2008.3869999999988,
+    "kernel": "MOE_CALL"
+   },
+   {
+    "t_start_us": 2.3359999999993306,
+    "dur_us": 1.3760000000002037,
+    "kernel": "_pack_topk_routes_sort_kernel"
+   },
+   {
+    "t_start_us": 3.8079999999972642,
+    "dur_us": 1989.6670000000013,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16mixed_trellisW4A16MixedTrellisKernel_object_at__tensorptrbf16g"
+   },
+   {
+    "t_start_us": 1993.7309999999998,
+    "dur_us": 13.536000000000058,
+    "kernel": "kernel_cutlass_kernel_b12xmoe_sharedkernelsw4a16kernelW4A16TopKSumKernel_object_at__tensorptrf16gmemalign16o1_"
+   },
+   {
+    "t_start_us": 2007.1389999999992,
+    "dur_us": 1.2479999999995925,
+    "kernel": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase"
+   }
+  ]
+ }
+}

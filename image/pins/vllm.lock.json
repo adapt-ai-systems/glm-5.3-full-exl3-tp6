@@ -1,0 +1,242 @@
+{
+  "base": {
+    "commit": "d6e0bb7c813264f1293288b9de0d18f277be7c9f",
+    "ref": "refs/heads/dev/infernal-invocation",
+    "repository": "https://github.com/local-inference-lab/vllm.git"
+  },
+  "composition": null,
+  "composition_strategy": "merge",
+  "manifest": {
+    "sha256": "d0a3e64f14447e66a434e6b03c4b76cfdf4ae8e94c11623033c96ce459a8adaa"
+  },
+  "name": "infernal-invocation-vllm",
+  "pull_requests": [
+    {
+      "commits": [
+        "d6b7377cbf27836241d04c9dd08725b7426d88eb"
+      ],
+      "disposition": "merged",
+      "head": "d6b7377cbf27836241d04c9dd08725b7426d88eb",
+      "number": 285,
+      "ref": "refs/pull/285/head",
+      "title": "Preserve resolved Hugging Face revisions across worker spawn"
+    },
+    {
+      "commits": [
+        "9dbec23e2b2ad5f788838ee3dafc3f6623b500b5"
+      ],
+      "disposition": "merged",
+      "head": "9dbec23e2b2ad5f788838ee3dafc3f6623b500b5",
+      "number": 286,
+      "ref": "refs/pull/286/head",
+      "title": "Inherit target identity for in-checkpoint speculative drafts"
+    },
+    {
+      "commits": [
+        "a5e76352ba295bf1bbc80c9bce52b2b7e280c24e"
+      ],
+      "disposition": "merged",
+      "head": "a5e76352ba295bf1bbc80c9bce52b2b7e280c24e",
+      "number": 287,
+      "ref": "refs/pull/287/head",
+      "title": "Make DS4 launch identity and capacity explicit"
+    },
+    {
+      "commits": [
+        "29f13ebc717d10d4aef5f728598c9ab0f75b082e"
+      ],
+      "disposition": "merged",
+      "head": "29f13ebc717d10d4aef5f728598c9ab0f75b082e",
+      "number": 288,
+      "ref": "refs/pull/288/head",
+      "title": "Enforce the B12X mHC input-shape contract for DeepSeek V4 MTP"
+    },
+    {
+      "commits": [
+        "91fd9f8f74de3882af4802d48e66f23347e02cd0"
+      ],
+      "disposition": "merged",
+      "head": "91fd9f8f74de3882af4802d48e66f23347e02cd0",
+      "number": 289,
+      "ref": "refs/pull/289/head",
+      "title": "Bound DeepSeek V4 sparse metadata to active context"
+    },
+    {
+      "commits": [
+        "c13a214bd70319938136fa38757a9ea739569639"
+      ],
+      "disposition": "merged",
+      "head": "c13a214bd70319938136fa38757a9ea739569639",
+      "number": 290,
+      "ref": "refs/pull/290/head",
+      "title": "Profile serving-reachable shapes before KV cache sizing"
+    },
+    {
+      "commits": [
+        "fb8d983acd642f059e5f3d3466e0f1c13e48b083"
+      ],
+      "disposition": "merged",
+      "head": "fb8d983acd642f059e5f3d3466e0f1c13e48b083",
+      "number": 292,
+      "ref": "refs/pull/292/head",
+      "title": "Enforce canonical B12X package identifiers"
+    },
+    {
+      "commits": [
+        "0e41faa811ce46df77acce3e9e7c6887954925de"
+      ],
+      "disposition": "merged",
+      "head": "0e41faa811ce46df77acce3e9e7c6887954925de",
+      "number": 293,
+      "ref": "refs/pull/293/head",
+      "title": "Recover hybrid KV cache load failures across cache groups"
+    },
+    {
+      "commits": [
+        "826bb4088f4671fe79e01183e0301f79134662c1"
+      ],
+      "disposition": "merged",
+      "head": "826bb4088f4671fe79e01183e0301f79134662c1",
+      "number": 294,
+      "ref": "refs/pull/294/head",
+      "title": "Preserve grammar bitmask source widths after draft trimming"
+    },
+    {
+      "commits": [
+        "71b93dc6f3d59e004c18535cf08b8fe750b64c19"
+      ],
+      "disposition": "merged",
+      "head": "71b93dc6f3d59e004c18535cf08b8fe750b64c19",
+      "number": 295,
+      "ref": "refs/pull/295/head",
+      "title": "Stop XGrammar draft validation at grammar termination"
+    },
+    {
+      "commits": [
+        "31472fd994f99802006a6297557d641b88652ceb"
+      ],
+      "disposition": "merged",
+      "head": "31472fd994f99802006a6297557d641b88652ceb",
+      "number": 296,
+      "ref": "refs/pull/296/head",
+      "title": "Absorb duplicate DeepSeek V4 tool-call closers"
+    },
+    {
+      "commits": [
+        "b8d92cb5d26e1c6fc4c5ad513b806dae961a4afd"
+      ],
+      "disposition": "merged",
+      "head": "b8d92cb5d26e1c6fc4c5ad513b806dae961a4afd",
+      "number": 298,
+      "ref": "refs/pull/298/head",
+      "title": "Require decode state for FULL CUDA graph dispatch"
+    },
+    {
+      "commits": [
+        "1b0c1c49f3517406db33f9b08aa7b476ce8d3e34"
+      ],
+      "disposition": "merged",
+      "head": "1b0c1c49f3517406db33f9b08aa7b476ce8d3e34",
+      "number": 300,
+      "ref": "refs/pull/300/head",
+      "title": "Load projection-mixed EXL3 routed experts"
+    },
+    {
+      "commits": [
+        "2255f632485c0f8a4e6cc81bc052a818b52a38a8"
+      ],
+      "disposition": "merged",
+      "head": "2255f632485c0f8a4e6cc81bc052a818b52a38a8",
+      "number": 301,
+      "ref": "refs/pull/301/head",
+      "title": "Fix GLM-5.2 B12X sparse MLA runtime contracts"
+    },
+    {
+      "commits": [
+        "7d1c21353cf4563b5344c83cf53acecac1f2f99c"
+      ],
+      "disposition": "merged",
+      "head": "7d1c21353cf4563b5344c83cf53acecac1f2f99c",
+      "number": 302,
+      "ref": "refs/pull/302/head",
+      "title": "Activate reasoning-aware structural tool grammars"
+    },
+    {
+      "commits": [
+        "4b297d1a07bfcc1bf0ab14c1dc25fe59c3e8f081"
+      ],
+      "disposition": "merged",
+      "head": "4b297d1a07bfcc1bf0ab14c1dc25fe59c3e8f081",
+      "number": 303,
+      "ref": "refs/pull/303/head",
+      "title": "Restore DeepSeek V4 DSpark quantization"
+    },
+    {
+      "commits": [
+        "229de6270e511701045fd73af592620901c7422b"
+      ],
+      "disposition": "merged",
+      "head": "229de6270e511701045fd73af592620901c7422b",
+      "number": 304,
+      "ref": "refs/pull/304/head",
+      "title": "Publish filesystem KV blocks without inode replacement"
+    },
+    {
+      "commits": [
+        "053e6351d0b3b3e35c969c9e3933db64d30a7164"
+      ],
+      "disposition": "merged",
+      "head": "053e6351d0b3b3e35c969c9e3933db64d30a7164",
+      "number": 308,
+      "ref": "refs/pull/308/head",
+      "title": "Zero recycled blocks for heterogeneous attention caches"
+    },
+    {
+      "commits": [
+        "dc0c026df62448d1bec747d9dd6fb0a01d838f3e"
+      ],
+      "disposition": "merged",
+      "head": "dc0c026df62448d1bec747d9dd6fb0a01d838f3e",
+      "number": 309,
+      "ref": "refs/pull/309/head",
+      "title": "Defer MLA DCP workspace allocation until CUDA materialization"
+    },
+    {
+      "commits": [
+        "e9534672129b961399b1625d33d83c79eacded30"
+      ],
+      "disposition": "merged",
+      "head": "e9534672129b961399b1625d33d83c79eacded30",
+      "number": 320,
+      "ref": "refs/pull/320/head",
+      "title": "Validate speculative structured output before commit"
+    },
+    {
+      "commits": [
+        "2511e5df2b1e4dfd2360a28e89899c90b7b3fcc7"
+      ],
+      "disposition": "merged",
+      "head": "2511e5df2b1e4dfd2360a28e89899c90b7b3fcc7",
+      "number": 417,
+      "ref": "refs/pull/417/head",
+      "title": "Parse legacy direct DeepSeek V4 DSML tool calls"
+    },
+    {
+      "commits": [
+        "c805ebd0896ccfbd2569bc0b2a7944d3282106ff"
+      ],
+      "disposition": "merged",
+      "head": "c805ebd0896ccfbd2569bc0b2a7944d3282106ff",
+      "number": 415,
+      "ref": "refs/pull/415/head",
+      "title": "Preserve the DSpark CUDA-graph capture contract"
+    }
+  ],
+  "result": {
+    "patch": "integration.patch",
+    "patch_sha256": "038240444e53df4976bcf4d8d5ab16c9e8f02496f1c790fc7f94e6cc74693d76",
+    "tree": "c53cc73dd64992f013842edf53513f604457c402"
+  },
+  "schema_version": 1,
+  "source_patches": []
+}

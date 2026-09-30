@@ -1,0 +1,15 @@
+import sys; sys.path.insert(0,"/work")
+import time, torch
+t=time.time()
+import bench_layer as B
+m,layer,ref,info=B.load_layer()
+print("loaded+prepared",time.time()-t,"s; native",info["n_native"],"subst",info["n_substituted"])
+g=torch.Generator().manual_seed(1)
+x=B.make_x(5,g); r=B.Router(); w,ids=r(x)
+print(ids)
+t=time.time()
+out=m._apply_mixed_rank_sliced(layer,x,w,ids); torch.cuda.synchronize()
+print("first apply",time.time()-t,out.shape,out.dtype,out.float().abs().mean())
+ro=B.ref_moe(ref,x,w,ids)
+print("ref",ro.abs().mean(), (out.float()-ro).abs().max())
+print(torch.cuda.max_memory_allocated()/1e9,"GB")

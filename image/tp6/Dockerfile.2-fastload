@@ -1,0 +1,5 @@
+# Step 2: fast expert loader (the served boot additionally bind-mounts overlays/tp6-fastload/, see launch/tp6/launch.sh).
+FROM glm53-exl3-tp6:fragments
+COPY runtime/fastload.py runtime/enable_fastload.py /opt/glm6/
+RUN python3 /opt/glm6/enable_fastload.py
+ENV GLM6_FAST_LOAD=1

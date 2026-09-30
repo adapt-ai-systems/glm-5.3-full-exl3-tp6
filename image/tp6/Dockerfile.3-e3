@@ -1,0 +1,6 @@
+# Step 3: E3 grouped-fragment prefill runtime (AGPL-3.0, third_party/e3). COPY-only; the cubin is prebuilt for sm_121a.
+FROM glm53-exl3-tp6:fastload
+COPY e3 /opt/glm6/e3
+COPY exl3-e3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py
+# the launcher sets GLM6_E3_PREFILL=1
+ENV GLM6_E3_PREFILL=0

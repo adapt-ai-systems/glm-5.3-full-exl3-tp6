@@ -1,0 +1,46 @@
+{
+ "2GB_sum_int64": {
+  "best_GBps": 235.02273344521018,
+  "median_GBps": 226.9038836243609
+ },
+ "2GB_sum_fp16": {
+  "best_GBps": 239.7087528496153,
+  "median_GBps": 237.2721282973693
+ },
+ "2GB_sum_bf16": {
+  "best_GBps": 239.53163930319545,
+  "median_GBps": 236.87514693563378
+ },
+ "2GB_copy_read_only_equiv": {
+  "best_GBps": 112.19122939761445,
+  "median_GBps": 110.97106707798184
+ },
+ "2GB_copy_rw_GBps": {
+  "best_GBps": 224.3824587952289,
+  "median_GBps": 221.94213415596369
+ },
+ "4GB_sum_int64": {
+  "best_GBps": 236.1192442846878,
+  "median_GBps": 215.79038084305336
+ },
+ "4GB_sum_fp16": {
+  "best_GBps": 240.81105075407703,
+  "median_GBps": 239.21572480577908
+ },
+ "4GB_sum_bf16": {
+  "best_GBps": 221.07610148150334,
+  "median_GBps": 197.9787677632062
+ },
+ "4GB_copy_read_only_equiv": {
+  "best_GBps": 116.93884093362715,
+  "median_GBps": 112.37100207541783
+ },
+ "4GB_copy_rw_GBps": {
+  "best_GBps": 233.8776818672543,
+  "median_GBps": 224.74200415083567
+ },
+ "4GB_rowmax_int32": {
+  "best_GBps": 243.24280270922773,
+  "median_GBps": 240.8218673808313
+ }
+}

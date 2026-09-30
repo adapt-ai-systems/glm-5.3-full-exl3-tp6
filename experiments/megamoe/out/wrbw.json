@@ -1,0 +1,26 @@
+{
+ "1GB_zero_": {
+  "best_GBps": 193.0,
+  "median_GBps": 188.3
+ },
+ "1GB_fill_fp16": {
+  "best_GBps": 196.5,
+  "median_GBps": 190.4
+ },
+ "1GB_copy_rw": {
+  "best_GBps": 219.3,
+  "median_GBps": 215.0
+ },
+ "2GB_zero_": {
+  "best_GBps": 182.0,
+  "median_GBps": 174.5
+ },
+ "2GB_fill_fp16": {
+  "best_GBps": 187.4,
+  "median_GBps": 181.6
+ },
+ "2GB_copy_rw": {
+  "best_GBps": 224.9,
+  "median_GBps": 219.4
+ }
+}
