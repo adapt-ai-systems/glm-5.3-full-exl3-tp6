@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""spark-kring: read libkring rings — which kernel each CUDA process's GPU work is parked in.
+
+  spark-kring FILE_OR_DIR [...]     (default: every kring-*.bin under the dirs given)
+
+Streams execute in order, so per stream: everything up to the NEWEST launch that has a completion
+record is done; the first launch after it is what the GPU is running / stuck in, and the rest are
+queued behind it. Needs the activity half of libkring (KRING_ACTIVITY != 0) for completions.
+"""
+import glob, os, struct, sys, time
+
+HDR = struct.Struct("<16Q")
+L = struct.Struct("<QQQIIII160s")    # seq host_ns stream corr cbid domain pad name
+D = struct.Struct("<QQQIIII160s")    # seq start end corr stream_id graph_id pad name
+MAGIC = 0x4b52494e47303031
+GRAPH = {514, 515, 311}              # cuGraphLaunch(_ptsz), cudaGraphLaunch
+
+
+def nm(b):
+    return b.split(b"\0", 1)[0].decode(errors="replace")
+
+
+def short(n, w=110):
+    return n if len(n) <= w else n[:w - 3] + "..."
+
+
+def read(path):
+    raw = open(path, "rb").read()
+    h = HDR.unpack_from(raw, 0)
+    if h[0] != MAGIC: return None
+    pid, nl, nd, ls, ds, lhead, dhead, dropped, flushes = h[1:10]
+    off = HDR.size
+    launches = []
+    for i in range(nl):
+        seq, hns, st, corr, cbid, dom, _, name = L.unpack_from(raw, off + i * ls)
+        if seq: launches.append((seq, hns, st, corr, cbid, dom, nm(name)))
+    off += nl * ls
+    done = []
+    for i in range(nd):
+        seq, s, e, corr, sid, gid, _, name = D.unpack_from(raw, off + i * ds)
+        if seq: done.append((seq, s, e, corr, sid, gid, nm(name)))
+    return dict(pid=pid, lhead=lhead, dhead=dhead, dropped=dropped, flushes=flushes,
+                launches=sorted(launches), done=sorted(done), mtime=os.path.getmtime(path))
+
+
+def report(path):
+    r = read(path)
+    if not r:
+        print(f"{path}: not a kring file"); return
+    L_, D_ = r["launches"], r["done"]
+    print(f"== {os.path.basename(path)} pid {r['pid']}: {r['lhead']} launches, {r['dhead']} completions, "
+          f"flushes {r['flushes']}, dropped {r['dropped']}")
+    if not L_:
+        print("   no launches recorded"); return
+    done_corr = {}
+    for d in D_: done_corr.setdefault(d[3], []).append(d)
+    by_stream = {}
+    for l in L_: by_stream.setdefault(l[2], []).append(l)
+    now = time.time() * 1e9
+    rows = []
+    for st, ls in by_stream.items():
+        last_done_i = max((i for i, l in enumerate(ls) if l[3] in done_corr), default=None)
+        pend = ls[last_done_i + 1:] if last_done_i is not None else ls
+        rows.append((st, ls, last_done_i, pend))
+    # streams with pending work first, then most recently used
+    rows.sort(key=lambda x: (-len(x[3]), -x[1][-1][0]))
+    for st, ls, ldi, pend in rows[:8]:
+        head = f"   stream 0x{st:x}: {len(ls)} launches in ring"
+        if ldi is not None:
+            ld = ls[ldi]; dd = done_corr[ld[3]]
+            head += f"; last COMPLETED {short(dd[-1][6] or ld[6], 90)!r} ({(now - ld[1]) / 1e9:.1f} s ago launched)"
+            if ld[4] in GRAPH: head += f" [graph: {len(dd)} kernels done, last {short(dd[-1][6], 60)!r}]"
+        else:
+            head += "; NO completion recorded on this stream"
+        print(head)
+        if pend:
+            p = pend[0]
+            print(f"     -> PARKED/RUNNING: {short(p[6])!r} (corr {p[3]}, launched {(now - p[1]) / 1e9:.1f} s ago)"
+                  + (" [graph launch: the stuck kernel is inside it, after the last completed node above]"
+                     if p[4] in GRAPH else ""))
+            if p[3] in done_corr:
+                print(f"        (graph partially done: {len(done_corr[p[3]])} kernels, last {short(done_corr[p[3]][-1][6], 80)!r})")
+            for q in pend[1:4]:
+                print(f"        queued behind: {short(q[6])!r}")
+            if len(pend) > 4: print(f"        ... {len(pend) - 4} more queued")
+        else:
+            print("     -> idle (everything launched has completed)")
+
+
+def main():
+    args = sys.argv[1:] or ["/tmp/kring"]
+    files = []
+    for a in args:
+        files += sorted(glob.glob(os.path.join(a, "kring-*.bin"))) if os.path.isdir(a) else [a]
+    if not files: print("no kring files"); return
+    for f in files: report(f)
+
+
+if __name__ == "__main__":
+    main()

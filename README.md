@@ -65,8 +65,8 @@ Both builds start from vLLM on the MiaAI-Lab ARM image with the r17 EXL3 "TR3" l
 - **Not re-run from this repo.** The launchers are reconstructed from the recorded container configs of the measured
   runs (same flags, env and bind targets) and were only dry-run checked. The images were built step by step on our
   nodes and not rebuilt from `image/`. Expect to debug.
-- **Known prefill hang on TP6** that we did not root-cause; on our cluster a CUPTI injection library (not included)
-  made it go away. Details in RESULTS.md "Known problems".
+- **Known prefill hang on TP6** that we did not root-cause; on our cluster a CUPTI injection library
+  made it go away; it is now in `tools/kring`. Details in RESULTS.md "Known problems".
 - The GPTQ codes are calibration-dependent; the TP4 gate passed by 0.12 points of top-1.
 - Measurements are single-stream except one concurrency table; long-context prefill was measured on TP6 only.
 - Some vLLM files were taken from the base image; we treat them as vLLM's Apache-2.0 code.

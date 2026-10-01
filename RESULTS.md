@@ -131,7 +131,7 @@ prose. The structured/code harnesses differ between the TP6 and TP4 tables, so w
   first request after boot. Symptom: all ranks' GPUs busy at low power, no RoCE traffic, a GPU kernel never completes;
   seen with and without D3, at MTU 1500 and 9000, at max-num-batched-tokens 4096 and 8192. On our cluster it hung in
   5 of 9 bench runs without a CUPTI injection library loaded and 0 of 5 (plus 40 soak pairs) with one loaded, which
-  points at a timing race. The CUPTI library we used is an internal tool and is **not** in this repo, so expect this
+  points at a timing race. The CUPTI library we used is now in `tools/kring` (see its README for the flags); without it, expect this
   hang with the shipped launchers. Mitigation in the launchers: `VLLM_EXECUTE_MODEL_TIMEOUT_SECONDS=3600`; watch the
   first requests after boot.
 - **Intermittent GPTQ load check failure** (both builds): 2 of ~12 TP6 boots and 1 TP4 boot failed the loader's int4
