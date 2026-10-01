@@ -16,6 +16,9 @@ quantization with vLLM on NVIDIA DGX Spark (GB10) nodes:
 Numbers are single-request, one boot each, on our cluster. Read [RESULTS.md](RESULTS.md) for every step,
 the benchmark definitions and the caveats before comparing them with anything.
 
+[kindling.json](kindling.json) has these numbers in a form a program can read; the Kindling AI site shows this
+recipe from it. A change to this table changes kindling.json too. [AGENTS.md](AGENTS.md) has the rules.
+
 ## Hardware
 
 - DGX Spark (GB10, 128 GB unified memory, one GPU per node), 6 or 4 nodes.
@@ -82,6 +85,7 @@ third_party/   E3 prefill runtime (AGPL-3.0)
 gptq/          D8 calibration capture and GPTQ solve (TP6, TP4)
 eval/          prefill/decode bench, KL gate, MTP acceptance
 experiments/   measured but not kept: adaptive draft length, EXL3 fused MoE prefill kernel, TP4 profiles
+kindling.json  the results above, machine-readable, for the Kindling AI site
 ```
 
 ## License

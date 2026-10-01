@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "title": "GLM-5.3",
+  "variant": "EXL3",
+  "summary": "Full GLM-5.3 in EXL3 (TR3 3.25 bpw) on DGX Spark. E3 grouped MoE prefill, MXFP8 and GPTQ int4 dense layers, MTP speculative decoding and a RoCE one-shot all-reduce.",
+  "model": "davidsyoung/GLM-5.3-EXL3-TR3-3.25bpw",
+  "hardware": "DGX Spark (GB10)",
+  "stack": ["vLLM", "EXL3", "MTP", "RoCE"],
+  "default_config": "tp6",
+  "configs": [
+    {
+      "id": "tp4",
+      "label": "TP=4",
+      "nodes": 4,
+      "decode": { "code": 35.15, "prose": 19.78, "structured": 42.63 },
+      "prefill": [ { "context": 8192, "tps": 783.2 }, { "context": 32768, "tps": 769.4 } ],
+      "max_context": 360000,
+      "kv_pool_tokens": 730750,
+      "max_concurrent": 4,
+      "quality": [ { "name": "Dense-layer KL vs BF16", "value": "0.0268 (pass)" } ],
+      "notes": "MTP k=4. One boot, one bench run."
+    },
+    {
+      "id": "tp6",
+      "label": "TP=6",
+      "nodes": 6,
+      "decode": { "prose": 27.7 },
+      "prefill": [
+        { "context": 8192, "tps": 1000 },
+        { "context": 32768, "tps": 958 },
+        { "context": 65536, "tps": 921 },
+        { "context": 131072, "tps": 854 }
+      ],
+      "max_context": 360000,
+      "kv_pool_tokens": 803968,
+      "max_concurrent": 4,
+      "quality": [ { "name": "Dense-layer KL vs BF16", "value": "0.0284 (pass)" } ],
+      "notes": "Prose decode at MTP k=4, as shipped; 33.8 tok/s at k=2. One boot, one bench run."
+    }
+  ]
+}
