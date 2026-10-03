@@ -94,11 +94,12 @@ code are about 1% slower; prefill and KV are unchanged. D leaves ~0.4 GB less fr
 A 455 s mixed-load soak on D (3 concurrent clients: cold 8K-48K prompts, real prompts, tool/JSON/code) finished
 with 0 errors and 0 stalls (no A soak for comparison).
 
-**Hangs.** D hung in 2 of its 8 boots on our cluster: once during boot (a shared-memory broadcast stall, while our
-network was having an outage) and once on the first cold 8K prefill after a short request, the same trigger as the
-TP6 prefill hang under Caveats. Both were at full clock and before the boot + smoke check; the last 4 D boots
-(0 of 4 hung) passed it. Four clean boots cannot rule out a hang rate in the earlier range, so
-check `/health` and send one short and one cold ~8K request after every boot before you rely on D.
+**Hangs.** D hung in 2 of its 20 boots on our cluster, both early and at full clock: once during boot (a
+shared-memory broadcast stall, while our network was having an outage) and once on the first cold 8K prefill after
+a short request, the same trigger as the TP6 prefill hang under Caveats. The 16 D boots since then, 15 of them with
+clocks locked to ≤ 2200 MHz, all came up on the first try and answered a short and a cold ~8K request (0 of 16 hung;
+that still allows a hang rate of up to about 17% at 95% confidence). Check `/health` and send one short and one cold
+~8K request after every boot before you rely on D.
 
 ## Caveats
 
