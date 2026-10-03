@@ -60,6 +60,48 @@ Both builds start from vLLM on the MiaAI-Lab ARM image with the r17 EXL3 "TR3" l
 5. **Check.** `eval/pbench.py --effort low` should land near the RESULTS.md rows. On TP4, if the first 8K prefill
    runs below ~580 tok/s, reboot once (see RESULTS.md).
 
+## Optional on TP6: adaptive draft length (D13, phase mode)
+
+D13 replaces the fixed MTP draft length (k=4) with a scheduler that picks k each decode step from 1 to 4,
+using a running estimate of draft acceptance and a measured step-cost table. In `phase` mode it keeps separate
+acceptance state for reasoning, content, code fences and tool calls. Code and details:
+[`experiments/d13-adaptive-k/`](experiments/d13-adaptive-k/README.md).
+
+**Enable** (on top of `launch/tp6/launch.sh`, every rank):
+- bind `experiments/d13-adaptive-k/adaptive_k_phase.py` to `vllm/v1/core/sched/adaptive_k_phase.py`, and the three
+  files in `experiments/d13-adaptive-k/overlay/` to `vllm/config/compilation.py`, `vllm/v1/cudagraph_dispatcher.py`
+  and `vllm/v1/worker/gpu_model_runner.py`;
+- add `--scheduler-cls vllm.v1.core.sched.adaptive_k_phase.AdaptiveKScheduler` and change the capture sizes to
+  `"cudagraph_capture_sizes":[2,3,4,5,6,8,9,10,12,15,16,20]`;
+- env `GLM_D13_QLENS=2,3,4,5 GLM_D13_NO_CG_ROUND=1 VLLM_ADAPTIVE_K_MODE=phase VLLM_ADAPTIVE_K_COST_MS=2:55,3:62,4:70,5:77`.
+
+**Measured** (TP6, one window, A and D alternating: D, A, D, A; n = boots per build; tok/s; GPU clocks locked to
+≤ 2200 MHz with `nvidia-smi -lgc 0,2200`, so not comparable with the full-clock rows above). Both builds ran the
+same container config (our measured TP6 stack, with `ATOMIC=0` and `tools/kring` loaded); the only difference is D13.
+
+| clk2200 | A: fixed k=4 | D: D13 phase | D vs A |
+|---|---|---|---|
+| prefill 8K | 1038.4 (n=2) | 1045.7 (n=2) | +0.7% |
+| prefill 32K | 999.4 (n=2) | 998.6 (n=2) | -0.1% |
+| prose decode (`eval/pbench.py --effort low`) | 28.7 (n=2) | 32.1 (n=2) | +11.9% |
+| real single-turn prompts (10 prompts, T=0.7, 700 tok; prompts not published) | 34.7 (n=2) | 36.3 (n=2) | +4.7% |
+| structured output (MTP acceptance bench, T=0) | 61.3 (n=2) | 60.7 (n=2) | -1.0% |
+| code (same bench) | 47.2 (n=2) | 46.8 (n=2) | -0.7% |
+| 2 concurrent sessions, aggregate | 50.2 (n=2) | 47.9 (n=2) | -4.5% |
+| 4 concurrent sessions, aggregate | 75.1 (n=2) | 79.4 (n=2) | +5.8% |
+| KV pool (tokens) | 803,968 | 803,968 | same |
+
+D gains on prose and real prompts (both D runs above both A runs on each of those rows); structured output and
+code are about 1% slower; prefill and KV are unchanged. D leaves ~0.4 GB less free memory on the head node at idle.
+A 455 s mixed-load soak on D (3 concurrent clients: cold 8K-48K prompts, real prompts, tool/JSON/code) finished
+with 0 errors and 0 stalls (no A soak for comparison).
+
+**Hangs.** D hung in 2 of its 8 boots on our cluster: once during boot (a shared-memory broadcast stall, while our
+network was having an outage) and once on the first cold 8K prefill after a short request, the same trigger as the
+TP6 prefill hang under Caveats. Both were at full clock and before the boot + smoke check; the last 4 D boots
+(0 of 4 hung) passed it. Four clean boots cannot rule out a hang rate in the earlier range, so
+check `/health` and send one short and one cold ~8K request after every boot before you rely on D.
+
 ## Caveats
 
 - **Not re-run from this repo.** The launchers are reconstructed from the recorded container configs of the measured
@@ -81,7 +123,7 @@ runtime/       TP6 expert re-fragmenting export + loader adapters (baked into th
 third_party/   E3 prefill runtime (AGPL-3.0)
 gptq/          D8 calibration capture and GPTQ solve (TP6, TP4)
 eval/          prefill/decode bench, KL gate, MTP acceptance
-experiments/   measured but not kept: adaptive draft length, EXL3 fused MoE prefill kernel, TP4 profiles
+experiments/   adaptive draft length (optional on TP6, see above); measured but not kept: EXL3 fused MoE prefill kernel, TP4 profiles
 ```
 
 ## License
