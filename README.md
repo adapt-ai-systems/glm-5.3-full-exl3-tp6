@@ -67,13 +67,11 @@ using a running estimate of draft acceptance and a measured step-cost table. In 
 acceptance state for reasoning, content, code fences and tool calls. Code and details:
 [`experiments/d13-adaptive-k/`](experiments/d13-adaptive-k/README.md).
 
-**Enable** (on top of `launch/tp6/launch.sh`, every rank):
-- bind `experiments/d13-adaptive-k/adaptive_k_phase.py` to `vllm/v1/core/sched/adaptive_k_phase.py`, and the three
-  files in `experiments/d13-adaptive-k/overlay/` to `vllm/config/compilation.py`, `vllm/v1/cudagraph_dispatcher.py`
-  and `vllm/v1/worker/gpu_model_runner.py`;
-- add `--scheduler-cls vllm.v1.core.sched.adaptive_k_phase.AdaptiveKScheduler` and change the capture sizes to
-  `"cudagraph_capture_sizes":[2,3,4,5,6,8,9,10,12,15,16,20]`;
-- env `GLM_D13_QLENS=2,3,4,5 GLM_D13_NO_CG_ROUND=1 VLLM_ADAPTIVE_K_MODE=phase VLLM_ADAPTIVE_K_COST_MS=2:55,3:62,4:70,5:77`.
+**Enable:** set `D13=1` for `launch/tp6/launch.sh` on every rank (off by default). It binds
+`experiments/d13-adaptive-k/adaptive_k_phase.py` and the three files in `experiments/d13-adaptive-k/overlay/`, adds
+`--scheduler-cls vllm.v1.core.sched.adaptive_k_phase.AdaptiveKScheduler`, sets the capture sizes to
+`[2,3,4,5,6,8,9,10,12,15,16,20]` and the env `GLM_D13_QLENS=2,3,4,5 GLM_D13_NO_CG_ROUND=1 VLLM_ADAPTIVE_K_MODE=phase
+VLLM_ADAPTIVE_K_COST_MS=2:55,3:62,4:70,5:77`.
 
 **Measured** (TP6, one window, A and D alternating: D, A, D, A; n = boots per build; tok/s; GPU clocks locked to
 ≤ 2200 MHz with `nvidia-smi -lgc 0,2200`, so not comparable with the full-clock rows above). Both builds ran the
@@ -123,7 +121,7 @@ runtime/       TP6 expert re-fragmenting export + loader adapters (baked into th
 third_party/   E3 prefill runtime (AGPL-3.0)
 gptq/          D8 calibration capture and GPTQ solve (TP6, TP4)
 eval/          prefill/decode bench, KL gate, MTP acceptance
-experiments/   adaptive draft length (optional on TP6, see above); measured but not kept: EXL3 fused MoE prefill kernel, TP4 profiles
+experiments/   adaptive draft length (opt-in on TP6 via D13=1, see above); measured but not kept: EXL3 fused MoE prefill kernel, TP4 profiles
 ```
 
 ## License

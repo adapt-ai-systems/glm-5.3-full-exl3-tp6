@@ -49,6 +49,17 @@ if [ "${FASTLOAD:-1}" = 1 ]; then  # O_DIRECT thread-pool expert load + redundan
           -v "$O/tp6-fastload/fastload_filter.py:/opt/glm6/fastload_filter.py:ro")
   envs+=(-e GLM6_FAST_FILTER=1)
 fi
+graphs='[5,10,15,20]'
+if [ "${D13:-0}" = 1 ]; then  # opt-in: adaptive, phase-aware MTP draft length (experiments/d13-adaptive-k, README.md)
+  X=$REPO/experiments/d13-adaptive-k
+  binds+=(-v "$X/adaptive_k_phase.py:$V/v1/core/sched/adaptive_k_phase.py:ro"
+          -v "$X/overlay/compilation.py:$V/config/compilation.py:ro"
+          -v "$X/overlay/cudagraph_dispatcher.py:$V/v1/cudagraph_dispatcher.py:ro"
+          -v "$X/overlay/gpu_model_runner.py:$V/v1/worker/gpu_model_runner.py:ro")
+  envs+=(-e GLM_D13_QLENS=2,3,4,5 -e GLM_D13_NO_CG_ROUND=1 -e VLLM_ADAPTIVE_K_MODE=phase
+         -e VLLM_ADAPTIVE_K_COST_MS=2:55,3:62,4:70,5:77)
+  graphs='[2,3,4,5,6,8,9,10,12,15,16,20]'
+fi
 args=(serve /model --served-model-name glm-5.3 --host 0.0.0.0 --port 8000
   --tensor-parallel-size 6 --nnodes 6 --node-rank "$RANK" --master-addr "$HEAD_ADDR" --master-port 29563
   --distributed-executor-backend mp --disable-custom-all-reduce
@@ -59,8 +70,9 @@ args=(serve /model --served-model-name glm-5.3 --host 0.0.0.0 --port 8000
   --enable-auto-tool-choice --tool-call-parser glm47 --reasoning-parser glm45
   --decode-context-parallel-size 1 --dcp-comm-backend ag_rs
   --speculative-config '{"method":"mtp","num_speculative_tokens":4,"draft_tensor_parallel_size":6}'
-  --compilation-config '{"cudagraph_mode":"FULL","cudagraph_capture_sizes":[5,10,15,20]}'
+  --compilation-config "{\"cudagraph_mode\":\"FULL\",\"cudagraph_capture_sizes\":$graphs}"
   --jit-monitor-verbose)
+[ "${D13:-0}" = 1 ] && args+=(--scheduler-cls vllm.v1.core.sched.adaptive_k_phase.AdaptiveKScheduler)
 [ "$RANK" = 0 ] || args+=(--headless)
 cmd=(docker run -d --name "${NAME:-glm53-tp6}" --restart no --gpus all --network host --ipc host
   --cap-add IPC_LOCK --security-opt label=disable --ulimit memlock=-1:-1 --ulimit nofile=1048576:1048576
