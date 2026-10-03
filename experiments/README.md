@@ -1,7 +1,7 @@
-# Experiments (not part of either kept stack)
+# Experiments
 
-- `d13-adaptive-k/`: adaptive and phase-aware MTP draft length on TP6. Measured, not shipped (partial A/B; see
-  its README and RESULTS.md).
+- `d13-adaptive-k/`: adaptive and phase-aware MTP draft length on TP6. Shipped as an opt-in: `D13=1` in
+  `launch/tp6/launch.sh` (off by default); measurements in README.md "Optional on TP6" and RESULTS.md.
 - `megamoe/`: an EXL3 fused down-projection prefill kernel for TP4. **Not kept**: +2% prefill, −3.7% structured
   decode. `REPORT.md` has the summary, `RESULTS.md` the one-layer measurements, `harness/` the bench scripts
   (they expect a TP4 checkpoint layer and the E3 package on the path), `out/` the raw measurement files.

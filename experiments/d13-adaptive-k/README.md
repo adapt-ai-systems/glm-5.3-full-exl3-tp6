@@ -1,4 +1,4 @@
-# D13: adaptive, phase-aware MTP draft length (TP6, not shipped)
+# D13: adaptive, phase-aware MTP draft length (TP6, opt-in: `D13=1` in launch/tp6/launch.sh)
 
 Each decode step, `adaptive_k_phase.py` (a vLLM scheduler class) picks k, the number of MTP drafts, to maximise
 expected tokens per ms: expected tokens from a running estimate of per-position acceptance, step cost from a
@@ -11,7 +11,7 @@ THIRD_PARTY_NOTICES.md.
 decode CUDA graphs for every query length k+1 (`GLM_D13_QLENS=2,3,4,5`) and stop capture sizes being rounded to
 multiples of k+1 (`GLM_D13_NO_CG_ROUND=1`); unset env = stock behaviour.
 
-## Boot (on top of launch/tp6/launch.sh, MTP k=4)
+## Boot (on top of launch/tp6/launch.sh, MTP k=4; `D13=1` does all of this)
 
 Bind `adaptive_k_phase.py` to `vllm/v1/core/sched/adaptive_k_phase.py` and the three overlays to
 `vllm/config/compilation.py`, `vllm/v1/cudagraph_dispatcher.py`, `vllm/v1/worker/gpu_model_runner.py`; add
@@ -20,7 +20,10 @@ Bind `adaptive_k_phase.py` to `vllm/v1/core/sched/adaptive_k_phase.py` and the t
 VLLM_ADAPTIVE_K_MODE=phase VLLM_ADAPTIVE_K_COST_MS=2:55,3:62,4:70,5:77` (verified tokens:ms). Optional
 `VLLM_ADAPTIVE_K_CONTROL=<file>`: a line `force N` | `adapt` | `phase`, plus an optional `cost ...` line, read live.
 
-## Measured (one D13 boot switched between modes, plus the stock boot; TP6, fabric at MTU 9000)
+## First screen (one D13 boot switched between modes, plus the stock boot; TP6, fabric at MTU 9000)
+
+The later A/B (2 boots per build, clocks locked to ≤ 2200 MHz, a 455 s mixed soak, hang record) is in the top-level
+README.md, "Optional on TP6".
 
 | workload | fixed k=4 (stock) | k=4 via D13 `force 4` | D13 `adapt` | D13 `phase` |
 |---|---|---|---|---|

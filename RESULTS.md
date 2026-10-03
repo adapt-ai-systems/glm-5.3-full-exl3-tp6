@@ -110,6 +110,14 @@ prefill, but structured decode −3.7% at equal MTP rounds (cause not found).
 The TP6 prose number is from a k=2 boot; TP6 with k=4 (what `launch/tp6/launch.sh` starts) measured 27.7 on pbench
 prose. The structured/code harnesses differ between the TP6 and TP4 tables, so we do not compare those columns.
 
+## Opt-in on TP6: adaptive draft length (D13)
+
+`D13=1` in `launch/tp6/launch.sh` (off by default; code in `experiments/d13-adaptive-k`). First screen, one boot at
+MTU 9000: +12–16% pbench prose and +5–7% on real prompts vs fixed k=4, tool calls unchanged. Confirmed in an
+alternating A/B window (2 boots per build, GPU clocks locked to ≤ 2200 MHz): prose +11.9%, real prompts +4.7%,
+structured −1.0%, code −0.7%, prefill and KV unchanged. Table, concurrency rows and the hang record: README.md
+"Optional on TP6".
+
 ## Tried and dropped (TP6 unless noted)
 
 | idea | result |
@@ -123,7 +131,6 @@ prose. The structured/code harnesses differ between the TP6 and TP4 tables, so w
 | jumbo frames (MTU 9000) | half-jumbo cost 5% prefill; full-jumbo runs hit the known hang, so jumbo is unmeasured, not proven harmful |
 | 8 NCCL channels, CUDA graph size 1, static expert placement | no gain |
 | small-M kernel rewrites (router, MLA bmm, shared down) | ~1% estimated, parked |
-| adaptive / phase-aware draft length (`experiments/d13-adaptive-k`) | +12–16% pbench prose and +5–7% on real prompts vs fixed k=4, tool calls unchanged; partial A/B only, not shipped |
 
 ## Known problems
 
